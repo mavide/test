@@ -1,0 +1,22 @@
+<!-- Add To Artist This {$type} -->
+<div id="artist_form" class="action_box"  >
+	<div class="action_box_title">Add this {$params.type} to artist {if $params.type=='collection'} or playlist{/if}</span></div>
+    <div class="form_container" align="center">
+    
+     <div class="form_result" id="artist_form_result" style="display:none"></div>
+     
+    <form id="add_artist_form" name="artist_form" method="post" action="" class="">
+    Please select artist name from following<br>
+	<select name="artist" id="artist" style="font:normal 11px Tahoma, Geneva, sans-serif;">
+    {section name=clist loop=$artists}
+    	<option value="{$artists[clist].artist_id}">{$artists[clist].artist_name} ({$artists[clist].total_objects})</option>
+    {sectionelse}
+    	<option>No Artists Found</option>    
+  	{/section}
+    </select>
+
+    <input type="button" name="add_to_playlist" value="Add to artist" class="cb_button" onclick="artist_actions('add_artist_form','add_new_item_ar','{$id}','#artist_form_result','collection');"/>
+    </form>
+    </div>
+</div>
+<!-- Add To Artist This {$type} -->

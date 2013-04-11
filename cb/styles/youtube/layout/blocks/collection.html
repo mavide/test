@@ -1,0 +1,214 @@
+{if $display_type == "a" || $display_type == "normala"}
+<div class="image505" style="">
+<div class="clearfix"></div>
+	<div class="image507" style="">
+		<div class="thumb_container_medium" style=" display:inline-block;border:1px solid #ccc;"><a href="{$cbcollection->collection_links($collection,'view')}"><img src="{$cbcollection->get_thumb($collection,'small')}" width="124" height="98"  style="border:none;"/></a>
+		</div>
+	</div>
+<div class="clearfix"></div>
+<div style="margin-left:6px">
+<div><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name|truncate:22}</a></div>
+<div>{$collection.total_objects|number_format} {$collection.type|capitalize}</div> 
+<div>{$collection.views} {lang code="views"}</div>
+<div><a href="{$userquery->profile_link($collection)}" title="{$collection.username}">{$collection.username|truncate:16}</a></div>
+</div>
+</div><!--image500-->
+{/if}
+
+{if $display_type == "view_collectiona"}
+<div class="collectItemBox">
+	{if $type == "videos"}
+    <div class="collect_grid">
+        <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
+            <img src="{getThumb vdetails=$object}" alt="{$object.title}" width="120" height="70" style="border:none;" />
+        </a>
+    </div> <!-- collection_{$collection.videokey} end -->
+    {/if}
+    
+    {if $type == "photos"}
+    <div class="collect_grid">
+        <a class="CollectThumb" href="{$cbphoto->photo_links($object,'view_item')}">
+            {get_photo details=$object size='t' output='html' alt=$object.photo_title}
+        </a>        
+    </div> <!-- collection_{$object.photo_key} end -->    
+    {/if}
+</div>  
+{/if}
+
+{if $display_type == "view_collection"}
+	{if $type == "videos"}
+		<div class="box">
+		<div class="main_vids clearfix">
+		<div class="main_vids clearfix" style="display: block;">
+			<div class="grid_view">
+				<div class="vid_thumb">
+					<a href="{$cbphoto->photo_links($object,'view_item')}"><img src="{getThumb vdetails=$object}" alt="{$object.title}" width="124" height="98"  style="border:none;"/></a>
+				</div>
+				<div class="vid_info_wrap">
+					<div><a href="{$cbphoto->photo_links($object,'view_item')}">{$object.title|truncate:40}</a></div>
+					<!--div>{$collection.total_objects|number_format} {$collection.type|capitalize}</div--> 
+					<div>{$object.views} {lang code="views"}</div>
+					<div class="tag"><span>{$object.category|categories:collections}</span></div>
+				</div>
+			</div>
+		</div>
+		</div> <!--MAIN_VIDS END-->
+		</div><!--box-->
+	{/if}
+	{if $type == "photos"}
+		<div class="box">
+		<div class="main_vids clearfix">
+		<div class="main_vids clearfix" style="display: block;">
+			<div class="grid_view">
+				<div class="vid_thumb">
+					<a href="{$cbphoto->photo_links($object,'view_item')}">
+					{get_photo details=$object size='t' output='html' alt=$object.photo_title}
+					</a>
+				</div>
+				<div class="vid_info_wrap">
+					<div><a href="{$cbphoto->photo_links($object,'view_item')}">{$object.photo_title|truncate:40}</a></div>
+					<!--div>{$collection.total_objects|number_format} {$collection.type|capitalize}</div--> 
+					<div>{$object.views} {lang code="views"}</div>
+				</div>
+			</div>
+		</div>
+		</div> <!--MAIN_VIDS END-->
+		</div><!--box-->
+	{/if}
+{/if}
+
+
+{if $display_type == "aa" || $display_type == "normalaa"}
+
+<div class="box">
+<div class="main_vids clearfix">
+<div class="main_vids clearfix" style="display: block;">
+	<div class="grid_view">
+		<div class="vid_thumb">
+			<a href="{$cbcollection->collection_links($collection,'view')}"><img src="{$cbcollection->get_thumb($collection,'small','true')}" width="124" height="98"  style="border:none;"/></a>
+			<span class="vid_time">{$collection.total_objects} {$collection.type}</span>
+		</div>
+		<div class="vid_info_wrap">
+			<div><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name|truncate:40}</a></div>
+			<!--div>{$collection.total_objects|number_format} {$collection.type|capitalize}</div--> 
+			<div>{$collection.views} {lang code="views"}</div>
+			<div class="tag"><span>{$collection.category|categories:collections}</span></div>
+		</div>
+	</div>
+</div>
+</div> <!--MAIN_VIDS END-->
+</div><!--box-->
+{/if}
+
+{if $display_type == "" || $display_type == "normal"}
+<div class="image505" style="width: 180px;height: 195px;">	
+	<div class="vid_thumb">
+		<a href="{$cbcollection->collection_links($collection,'view')}">
+		<img src="{$cbcollection->get_thumb($collection,'small','true')}" width="128" height="130"  style="border:none;"/></a>
+		<span class="vid_time">{$collection.total_objects} {$collection.type}</span>
+	</div>
+	<div class="clearfix"></div>
+	<div class="box_one" style="">
+		<div class="textyui"><a href="{$cbartist->artist_links($artist,'view')}">{$collection.collection_name|truncate:50}</a></div>
+		<div class="command" style="color: #666666;font-size: 11px;font-weight: normal;">{$collection.views} {lang code="views"}</div> 		
+		<div class="tag"><span>{$collection.category|categories:collections}</span></div>
+	</div>
+</div><!--image500-->
+{/if}
+
+{if $display_type == "related"}
+
+<div class="relbox" style="display: block;">
+	<div class="rel_view">
+		<div class="vid_thumb">
+			<a href="{$cbcollection->collection_links($collection,'view')}"><img src="{$cbcollection->get_thumb($collection,'small','true')}" width="124" height="98"  style="border:none;"/></a>
+			<span class="vid_time">{$collection.total_objects} {$collection.type}</span>
+		</div>
+		<div class="vid_info_wrap">
+			<div><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name|truncate:25}</a></div>
+			<!--div>{$collection.total_objects|number_format} {$collection.type|capitalize}</div--> 
+			<div>{$collection.views} {lang code="views"}</div>
+			<div class="tag"><span>{$collection.category|categories:collections}</span></div>
+		</div>
+	</div>
+</div><!--box-->
+{/if}
+
+
+{if $display_type == "artist" }
+
+<div class="box">
+<div class="main_vids clearfix">
+<div class="main_vids clearfix" style="display: block;">
+	<div class="grid_view">
+		<div class="vid_thumb">
+		<a href="{$cbcollection->collection_links($collection,'view')}">
+		<img src="{$cbcollection->get_thumb($collection,'small','true')}" width="124" height="98"  style="border:none;"/></a>
+			<span class="vid_time">{$artist.total_objects} {$artist.type}</span>
+		</div>
+		<div class="vid_info_wrap">
+			<div class="textyui"><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name|truncate:50}</a></div>
+			<!--div>{$artist.total_objects|number_format} {$artist.type|capitalize}</div--> 
+			<div>{$collection.total_objects|number_format} {if $collection.type == 'videos' } Clips {else} {$collection.type|capitalize}  {/if}  | {$collection.views} {lang code="views"}</div>
+			<div class="tag"><span>{$collection.username|truncate:16}</span></div>
+		</div>
+	</div>
+</div>
+</div> <!--MAIN_VIDS END-->
+</div><!--box-->
+{/if}
+
+
+
+
+
+{if $display_type == "artiste" }
+<div class="image505"  style="width: 114px;height: 124px;">
+
+<div class="clearfix"></div>
+
+<div class="thumb_container_medium" style=" display:inline-block;border:1px solid #ccc;">
+<a href="{$cbcollection->collection_links($collection,'view')}">
+<img src="{$cbcollection->get_thumb($collection,'small','true')}" width="112" height="120"  style="border:none;"/></a>
+
+</div>
+
+<div class="box_one" style="">
+
+<div class="textyui"><a href="{$cbcollection->collection_links($collection,'view')}">{$collection.collection_name|truncate:50}</a></div>
+
+<div class="command" style="color: #666666;font-size: 11px;font-weight: normal;">{$collection.total_objects|number_format} {if $collection.type == 'videos' } Clips {else} {$collection.type|capitalize}  {/if}  | {$collection.views} {lang code="views"}</div> 
+
+<!-- <div class="command_2" style="color: #666666;font-size: 11px;font-weight: normal;">{$collection.views} {lang code="views"}</div> -->
+
+<div class="textyui"><a href="{$userquery->profile_link($collection)}" title="{$collection.username}">{$collection.username|truncate:16}</a></div>
+
+</div>
+
+</div><!--image500-->
+
+{/if}
+
+
+{if $display_type == "view_artist"}
+		<div class="box">
+		<div class="main_vids clearfix">
+		<div class="main_vids clearfix" style="display: block;">
+			<div class="grid_view">
+				<div class="vid_thumb">
+					<a href="{videoLink vdetails=$object}"><img src="{getThumb vdetails=$object}" alt="{$object.title}" width="124" height="98"  style="border:none;"/></a>
+				</div>
+				<div class="vid_info_wrap">
+					<div><a href="{videoLink vdetails=$object}">{$object.title|truncate:40}</a></div>
+					<!--div>{$collection.total_objects|number_format} {$collection.type|capitalize}</div--> 
+					<div>{$object.views} {lang code="views"}</div>
+					<div class="tag"><span>{$object.category|categories:collections}</span></div>
+				</div>
+			</div>
+		</div>
+		</div> <!--MAIN_VIDS END-->
+		</div><!--box-->
+{/if}
+
+
+

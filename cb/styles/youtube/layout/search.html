@@ -1,0 +1,63 @@
+<div class="clearfix">
+
+<div class="serch_photo clearfix">
+<div id="simple_search" style="margin-left:5px">
+	<form name="search-form" method="get" action="" class="navbar-form pull-left">
+        
+        <input type="text" name="query" value="{'query'|get_form_val:true}" id="query" class="span5" />
+        <select name="type" id="SearchType" class="span2">
+            {foreach from=$Cbucket->search_types item=t key=stypes}
+                <option value="{$stypes}" {if $smarty.get.type==$stypes} selected="selected"{/if}>{$stypes}</option>
+            {/foreach}
+        </select>
+       <button type="submit" class="btn">Go</button>
+    </form>
+</div>
+    
+
+</div>
+
+<div class="break2"></div>    
+
+	<div id="five_vids" class="vids_con clearfix">    
+    {if $results}
+        {foreach item=result from=$results}
+        {assign var=$template_var value =$result}
+        	{include file="$display_template" clearfix='no' }
+        {/foreach}
+        {else}
+        <div id="result_cont"><div class="error">{lang code='no_results_found'}</div></div>
+    {/if}
+    </div>
+  
+    <div class="clearfix"></div>
+</div>
+<div class="clearfix"></div>
+<div style="margin-top:50px">
+{include file="$style_dir/blocks/pagination.html"}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

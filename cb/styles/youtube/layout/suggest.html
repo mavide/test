@@ -1,0 +1,186 @@
+<div class="container-fluid">
+	<div class="row-fluid">
+		<div class="span12 extra-space">
+			<div id="primary" class="extra-space">
+				<h1>Suggest Video</h1>
+				{if $success == 3}
+				<div class="alert alert-info">
+				{$suggest_msg1}
+				</div>
+				{/if}
+				{if $success == 4}
+					<div class="alert alert-info">
+					{$suggest_msg2}
+					</div>
+				{/if}
+				{if $success == 5}
+					<div class="alert alert-error">
+					{$suggest_msg3}
+					</div>
+				{/if}
+				{if $success == 1}
+					<div class="alert alert-success">
+					{$suggest_msg4}
+					<a href="suggest.{$smarty.const._FEXT}">{$add_another_one}</a>
+					</div>
+				{else}
+				{if count($errors) > 0}
+					<div class="alert">
+						<!--button type="button" class="close" data-dismiss="alert">&times;</button-->
+						<ul class="subtle-list">
+						{foreach from=$errors item=v}
+							<li>{$v}</li>
+						{/foreach}
+						</ul>
+					</div>
+				{/if}
+		
+				<form class="form-horizontal" id="suggest-form" name="suggest-form" method="post" action="{$form_action}">
+						  <fieldset>
+							<div class="control-group">
+							  <label class="control-label" for="pm_sources">Video URL</label>
+							  <div class="controls">
+								<input type="text" class="span8" name="yt_id" value="{$smarty.post.yt_id}" placeholder="http://"> <span class="hide" id="loading-gif-top"><img src="{$imageurl}/ajax-loader.gif" width="" height="" alt=""></span>
+							  </div>
+							</div>
+							<div class="hide" id="suggest-video-extra">
+								<div class="hide" id="video-thumb-placeholder"></div>
+								<div class="control-group">
+								  <label class="control-label" for="video_title">Video title</label>
+								  <div class="controls">
+								  <input type="text" class="span5" name="video_title" value="{$smarty.post.video_title}">
+								  </div>
+								</div>
+								<div class="control-group">
+								  <label class="control-label" for="category">Category</label>
+								  <div class="controls">
+								<!-- 	<select name='category' id='category_dropdown' class='span5' >
+										<option value='-1' selected="selected">Select one</option>
+										<option value="1" > ACOUSTIC</option>
+										<option value="27" >&nbsp;&nbsp;&nbsp; RAP</option>
+										<option value="2" > BLUES</option>
+									</select> -->
+									{$categories_dropdown}
+								</div>
+								</div>
+								<div class="control-group">
+								  <label class="control-label" for="description">Description</label>
+								  <div class="controls">
+									<textarea name="description" class="span5" rows="5">{if $smarty.post.description}{$smarty.post.description}{/if}</textarea>
+								  </div>
+								</div>
+								<div class="control-group">
+								  <label class="control-label" for="tags">tags</label>
+							
+								  <div class="controls">
+									<input id="tags_1" type="text" class="tags" name="tags" value="{$smarty.post.tags}"/>
+								</div>
+								</div>
+								<div class="">
+								  <div class="controls">
+									<input class="btn btn-success" name="Submit" id="Submit" value="Submit" type="submit" data-loading-text="Send"> <span class="hide" id="loading-gif-bottom"><img src="{$imageurl}/ajax-loader.gif" width="" height="" alt=""></span>
+								  </div>
+								</div>
+							</div><!-- #suggest-video-extra -->
+							<div class="alert hide" id="ajax-error-placeholder"></div>
+							<div class="alert alert-success hide" id="ajax-success-placeholder"></div>
+						  </fieldset>
+				</form>
+			{/if}
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">	
+{literal}
+$(document).ready(function(){$("#suggest-form").submit(function(){return false});
+var h=$("#loading-gif-top");
+var g=$("#loading-gif-bottom");
+var e=$("#ajax-error-placeholder");
+var f=$("#ajax-success-placeholder");
+$('#suggest-form input[name="yt_id"]').bind("input propertychange",function(a){if($(this).val()==""){return false}h.show();
+$("#suggest-video-extra").slideUp();
+e.html("").hide();
+f.html("").hide();
+$.ajax({type:"POST",url:baseurl+"/majax.php",data:{p:"suggest","do":"getdata",url:$(this).val()},dataType:"json",success:function(b){h.hide();
+if(b.failed){e.html(b.message).show()}else{if(b.success){e.hide();
+$("#suggest-video-extra").slideDown();
+$("#video-thumb-placeholder").html('<div class="suggest-video-placeholder"><img src="'+b.videodata.yt_thumb+'" title="" /></div>').show();
+$('#suggest-form input[name="video_title"]').val(b.videodata.video_title);
+$('#suggest-form textarea[name="description"]').val(b.videodata.description);
+$('#suggest-form input[name="tags"]').val(b.videodata.tags);
+$("#suggest-form").append('<input type="hidden" name="source_id" value="'+b.videodata.source_id+'" />');
+$("#suggest-form").append('<input type="hidden" name="p" value="suggest" />');
+$("#suggest-form").append('<input type="hidden" name="do" value="submitvideo" />')}}}});
+return false});
+$('#suggest-form input[type="submit"]').click(function(){e.html("").hide();
+f.html("").hide();
+if($('input[name="video_title"]').val()==""){e.html(validate_video_title).show();
+return false}if($('select[name="category"]').val()=="-1"){e.html('choose_category').show();
+return false}g.show();
+var a=$("#suggest-form").serialize();
+$.ajax({type:"POST",url:baseurl+"/majax.php",data:a,dataType:"json",success:function(b){g.hide();
+if(b.failed){e.html(b.message).show()}else{if(b.success){e.hide();
+f.html(b.message).show();
+$("#suggest-video-extra").slideUp();
+$("#suggest-form").each(function(){this.reset()})}}}});
+return false})});
+{/literal}
+</script>
+
+<script type="text/javascript">
+{literal}		
+		function onAddTag(tag) {
+			alert("Added a tag: " + tag);
+		}
+		function onRemoveTag(tag) {
+			alert("Removed a tag: " + tag);
+		}
+		
+		function onChangeTag(input,tag) {
+			alert("Changed a tag: " + tag);
+		}
+		
+		$(function() {
+
+			$('#tags_1').tagsInput({
+			
+			'minChars' : 3,
+			'maxChars' : 40
+			});
+			$('#tags_2').tagsInput({
+				width: 'auto',
+				onChange: function(elem, elem_tags)
+				{
+					var languages = ['php','ruby','javascript'];
+					$('.tag', elem_tags).each(function()
+					{
+						if($(this).text().search(new RegExp('\\b(' + languages.join('|') + ')\\b')) >= 0)
+							$(this).css('background-color', 'yellow');
+					});
+				}
+			});
+			$('#tags_3').tagsInput({
+				width: 'auto',
+
+				//autocomplete_url:'test/fake_plaintext_endpoint.html' //jquery.autocomplete (not jquery ui)
+				autocomplete_url:'test/fake_json_endpoint.html' // jquery ui autocomplete requires a json endpoint
+			});
+			$('#tags_suggest').tagsInput({
+				'removeWithBackspace' : true,
+				'height':'auto',
+				'width':'auto',
+				'defaultText':'',
+				'minChars' : 3,
+				'maxChars' : 30
+			});
+
+// Uncomment this line to see the callback functions in action
+//			$('input.tags').tagsInput({onAddTag:onAddTag,onRemoveTag:onRemoveTag,onChange: onChangeTag});		
+
+// Uncomment this line to see an input with no interface for adding new tags.
+//			$('input.tags').tagsInput({interactive:false});
+		});
+	{/literal}
+	</script>
+</div>

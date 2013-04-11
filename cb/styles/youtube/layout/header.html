@@ -1,0 +1,118 @@
+
+<div class="header clearfix">
+<div class="span3">
+	<div class="title">
+	<h1><a href="{$baseurl}" rel="home">{$Cbucket->configs.site_title}</a></h1>
+	</div>
+</div>
+
+<div id="SearchCon">
+	<form action="{link name='search_result'}" method="get" name="search" id="search" class="navbar-form pull-left">
+	<div class="controls">
+		 <div class="input-append">
+			<input class="span5" id="query" size="16" name="query" type="text" placeholder="Search" x-webkit-speech="x-webkit-speech" onwebkitspeechchange="this.form.submit();" onkeyup="lookup(this.value);" onblur="fill();" autocomplete="off"/><button class="btn" type="submit"><i class="icon-search"></i></button>
+			<!-- <input type="hidden" name="type" id="searchType" value="{$smarty.get.type}" />  -->
+		</div>
+		<div class="suggestionsBox" id="suggestions" style="display: none;">
+			<div class="suggestionList input-xlarge" id="autoSuggestionsList">
+			</div>
+		</div>
+		</div>
+	</form>          
+</div> <!--SearchCon--> 
+
+
+
+<div class="UploadLinks moveL clearfix">
+	<ul>                
+	<li>
+	{if isSectionEnabled('videos')}<li><a href="{link name='videos'}">Videos</a></li>{/if}
+	{if isSectionEnabled('collections')}<li><a href="{link name='collections'}">Collections</a></li>{/if}
+	{if isSectionEnabled('artists')}<li><a href="{link name='artists'}">Artists</a></li>{/if}
+	{if isSectionEnabled('channels')}<li><a href="{link name='channels'}">Channels</a></li>{/if}
+	{if isSectionEnabled('groups')}<li><a href="{link name='groups'}">Groups</a></li>{/if}
+	{if isSectionEnabled('photos')}<li><a href="{link name='photos'}">Photos</a></li>{/if}
+	{if isSectionEnabled('videos')}<li><a href="{$baseurl}/suggest.php">Suggest</a></li>{/if}               
+	{if isSectionEnabled('photos')}<li><a href="{link name='photo_upload'}">Upload</a></li>{/if} 
+	</li>                
+	</ul>                
+</div>       
+         
+<div class="AccountLinks moveR">                 
+	<ul>
+	{if !$userquery->login_check('',true)}
+	<div style="height:10px;"></div>
+	<li><a href="{link name='signup'}">Create Account</a></li>
+	<li class="Sign_In"><a href="{link name='signup'}">Sign In</a></li> 
+	{lang code='after_meny_guest_msg' assign='guestmsg'}
+	{link name=login assign='loginlink'}
+	{else} 
+
+		<a class="btn" href="#">{$userquery->udetails.username}</a>
+
+	
+	
+	{/if}
+	</ul>
+</div><!--AccountLinks moveR-->
+</div><!--header-->
+
+<div style="position:relative">
+<div id="OpenUserCon" class="UserMenuBox clearfix">
+<div class="Container clearfix">
+<div class="UserBeingWatch moveL">
+<div class="break2"></div>
+<span class="UserMenuTitle"></span>
+{*get_videos assign=videos limit=15 order=" date_added DESC"*}
+<div class="BeingWatch clearfix">
+<ul id="mycarousel" class="jcarousel-skin-tango IndexNextPre">
+{section name=v_list loop=$videos}
+{include file="$style_dir/blocks/video.html" video=$videos[v_list] display_type="Being_Watch"}
+{sectionelse}
+</ul>
+{lang code='No Video Found'}
+{/section}
+</div> <!-- BeingWatch -->
+<!--Roms And Zoms-->
+</div> <!-- UserBeingWatch -->
+<div class="ShadowLeft ebebeb moveL"></div>
+<div class="UserMenu moveL">
+<ul>
+<li><a href="{$userquery->profile_link($userquery->udetails)}">{lang code='Channel'}</a></li>
+<li><a href="{link name='my_videos'}">{lang code='Videos'}</a></li>
+<li><a href="{link name='my_account'}">{lang code='com_my_account'}</a></li>
+<li><a href="{link name='my_favorites'}">{lang code='Favorites'}</a></li>
+<li><a href="{link name='my_contacts'}">{lang code='Inbox'}</a></li>
+<li><a href="{link name='my_subscriptions'}">{lang code='subscriptions'}</a></li>   
+<li><a href="{link name='logout'}">sign out</a></li>              
+</ul>
+</div> <!--UserMenu end-->	
+</div> <!-- Container -->
+</div>
+</div>
+
+ <script>
+{literal}
+ function lookup(a){
+    if (a.length == 0) {
+        $("#suggestions").hide()
+    }
+    else {
+        if (a.length > 2) {
+            $.post(baseurl + "/ajax_search.php", {
+                queryString: "" + a + ""
+            }, function(b){
+                if (b.length > 0) {
+                    $("#suggestions").show();
+                    $("#autoSuggestionsList").html(b)
+                }
+            })
+        }
+    }
+};
+function fill(a){
+    $("#inputString").val(a);
+    setTimeout("$('#suggestions').hide();", 200)
+};
+{/literal}
+</script>
